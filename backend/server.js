@@ -112,7 +112,7 @@ app.delete("/:product", (req, res) => {
         }
     })
     .catch((error) => {
-        res.status(400).json({
+        res.status(404).json({
             error: error
         });
     });

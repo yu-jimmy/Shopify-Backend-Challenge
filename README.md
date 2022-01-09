@@ -1,70 +1,109 @@
-# Getting Started with Create React App
+# Shopify Backend Chalenge Summer 2022
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Challenge google docs description found here: [Shopify 2022 backend challenge](https://docs.google.com/document/d/1z9LZ_kZBUbg-O2MhZVVSqTmvDko5IJWHtuFmIu_Xg1A/edit#)
 
-## Available Scripts
+This is a inventory tracking CRUD web application built using a MERN tech stack. Inventory items consist of a product, amount, and location. This web application allows the user to create, view, update, and delete inventory items through the UI. 
 
-In the project directory, you can run:
+![image](images/data.png)
 
-### `npm start`
+## Additional Features
+Alongside the basic CRUD functionality, the additional feature includes the ability to export and download data to a csv file.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![image](images/csv.png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Instructions to run the app
 
-### `npm test`
+A prerequisite before you can run this web app, is that Node.js version 16.x is on your machine. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Once you have Node.js installed on your machine, begin by cloning this repo using the command `https://github.com/yu-jimmy/Shopify-Backend-Challenge.git`. 
 
-### `npm run build`
+In one terminal shell, navigate to the backend folder/directory and run the command `npm install` followed by `npm start`. Then in another terminal shell, navigate to the root directory and again run the command `npm install` followed by`npm start`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Wait for the frontend to compile and it will launch a new tab in your default browser to the web application, where you can begin using the app.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## API Documentation
 
-### `npm run eject`
+### **GET**:
+- route: /
+- description: Queries the database and retrieves all inventory items
+- request: `GET /`
+    - content-type: `application/json`
+- response: 200
+    - content-type: `application/json`
+    - body: object
+        - data
+            - inventory: list of all inventories in the database
+- response: 400
+    - body: object 
+        - data
+            - Server cannot perform or process request
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<br />
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- route: /download
+- description: Queries the database for all inventory items and formats the data to be exported as a CSV
+- request: `GET /download`
+    - content-type: `application/json`
+- response: 200
+    - content-type: `application/json`
+    - body: object
+        - data
+            - inventory: list of all inventories in the database
+- response: 400
+    - body: object 
+        - data
+            - Server cannot perform or process request
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### **POST**:
+- route: /create
+- description: Creates a new inventory item in the database
+- request: `POST /create`
+    - content-type: `application/json`
+    - body: object
+        - product: name of product
+        - amount: amount of product
+        - location: location of product
+- response: 200
+    - content-type: `application/json`
+    - body: object
+        - data
+            - Sucessfully added new inventory item
+- response: 400
+    - body: object 
+        - data
+            - Server cannot perform or process request
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### **PATCH**:
+- route: /:product
+- description: Updates an inventory item in the database given a product name
+- request: `PATCH /:product`
+    - content-type: `application/json`
+    - body: object
+        - product: name of product
+- response: 200
+    - content-type: `application/json`
+    - body: object
+        - data
+            - Sucessfully updated new inventory item
+- response: 404
+    - body: object 
+        - data
+            - Item to delete not found
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### **DELETE**:
+- route: /:product
+- description: Deletes an inventory item in the database given a product name
+- request: `DELETE /:product`
+    - content-type: `application/json`
+    - body: object
+        - product: name of product
+- response: 200
+    - content-type: `application/json`
+    - body: object
+        - data
+            - Sucessfully deleted an inventory item
+- response: 404
+    - body: object 
+        - data
+            - Item to delete not found
